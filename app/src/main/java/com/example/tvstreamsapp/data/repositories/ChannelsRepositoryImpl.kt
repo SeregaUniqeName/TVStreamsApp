@@ -7,9 +7,12 @@ import com.example.tvstreamsapp.data.remote.ImageApiService
 import com.example.tvstreamsapp.data.utils.mapToDomain
 import com.example.tvstreamsapp.domain.ChannelsRepository
 import com.example.tvstreamsapp.domain.models.TVChannel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -19,14 +22,20 @@ class ChannelsRepositoryImpl @Inject constructor(
     private val apiService: ImageApiService,
 ) : ChannelsRepository {
 
-    override val channelsFlow: Flow<List<TVChannel>>
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+    override val channelsFlow: StateFlow<List<TVChannel>>
         get() = flow {
             val channels = channelsDao.getChannels()
             if (channels.isEmpty()) {
                 fillDatabase()
             }
             emit(channelsDao.getChannels().map { it.mapToDomain() })
-        }
+        }.stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
 
     private suspend fun fillDatabase() {
         val channels = readAssetFile(context)
@@ -40,7 +49,6 @@ class ChannelsRepositoryImpl @Inject constructor(
         var currentName = ""
         var currentStreamUrl = ""
         var currentTvChannel: TVChannelDb
-        var currentImageUrl = ""
         while (withContext(Dispatchers.IO) {
                 reader.readLine()
             }.also { line = it } != null) {

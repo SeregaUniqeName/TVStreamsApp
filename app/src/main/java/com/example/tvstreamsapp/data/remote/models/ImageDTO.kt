@@ -1,4 +1,4 @@
-package com.example.tvstreamsapp.data.local.model
+package com.example.tvstreamsapp.data.remote.models
 
 import com.google.gson.annotations.SerializedName
 

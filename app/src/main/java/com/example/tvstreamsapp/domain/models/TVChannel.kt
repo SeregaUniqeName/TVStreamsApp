@@ -1,8 +1,8 @@
 package com.example.tvstreamsapp.domain.models
 
 data class TVChannel(
-    private val id: Long,
-    private val channelName: String,
-    private val iconUrl: String,
-    private val streamUri: String,
+    val id: Long,
+    val channelName: String,
+    val iconUrl: String,
+    val streamUri: String,
 )

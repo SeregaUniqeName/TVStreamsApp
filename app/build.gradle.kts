@@ -58,6 +58,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(libs.android.lifecycle.viewModelScope)
+    implementation(libs.android.lifecycle.runtime)
+
     implementation(libs.dagger)
     implementation(libs.javax.inject)
     ksp(libs.dagger.compiler)
@@ -73,4 +76,6 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson.converter)
     implementation(libs.okHttp.loggin.interceptor)
+
+    implementation(libs.glide)
 }

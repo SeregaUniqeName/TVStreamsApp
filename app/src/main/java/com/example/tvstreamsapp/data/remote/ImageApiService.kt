@@ -1,6 +1,6 @@
 package com.example.tvstreamsapp.data.remote
 
-import com.example.tvstreamsapp.data.local.model.ImageDTO
+import com.example.tvstreamsapp.data.remote.models.ImageDTO
 import retrofit2.http.GET
 import retrofit2.http.Query
 
