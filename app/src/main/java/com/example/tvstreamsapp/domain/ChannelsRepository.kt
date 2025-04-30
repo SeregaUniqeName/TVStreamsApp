@@ -1,9 +1,9 @@
 package com.example.tvstreamsapp.domain
 
 import com.example.tvstreamsapp.domain.models.TVChannel
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 interface ChannelsRepository {
 
-    fun getChannels() : StateFlow<List<TVChannel>>
+    val channelsFlow: Flow<List<TVChannel>>
 }
