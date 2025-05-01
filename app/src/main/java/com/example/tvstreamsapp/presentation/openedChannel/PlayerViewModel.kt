@@ -2,6 +2,8 @@ package com.example.tvstreamsapp.presentation.openedChannel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.media3.exoplayer.ExoPlayer
+import com.example.tvstreamsapp.domain.PlayerInteractor
 import com.example.tvstreamsapp.domain.models.TVChannel
 import com.example.tvstreamsapp.domain.useCases.GetChannelsUseCase
 import com.example.tvstreamsapp.domain.useCases.LoadTVChannelUseCase
@@ -28,5 +30,9 @@ class PlayerViewModel @Inject constructor(
 
     fun releasePlayer() {
         playerInteractor.releasePlayer()
+    }
+
+    fun getPlayer(): ExoPlayer {
+        return playerInteractor.getPlayer()
     }
 }

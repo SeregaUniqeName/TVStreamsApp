@@ -1,6 +1,6 @@
-package com.example.tvstreamsapp.presentation.openedChannel
+package com.example.tvstreamsapp.domain
 
-import com.example.tvstreamsapp.domain.PlayerRepository
+import androidx.media3.exoplayer.ExoPlayer
 import javax.inject.Inject
 
 class PlayerInteractor @Inject constructor(
@@ -9,5 +9,9 @@ class PlayerInteractor @Inject constructor(
 
     fun releasePlayer() {
         repository.release()
+    }
+
+    fun getPlayer(): ExoPlayer {
+        return repository.getPlayer()
     }
 }

@@ -10,7 +10,24 @@
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <ProgressBar
+            android:id="@+id/playerProgressBar"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/fullscreenButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp" />
+
+    </androidx.media3.ui.PlayerView>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/playerRecyclerView"
