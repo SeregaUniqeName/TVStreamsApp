@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.StateFlow
 interface ChannelsRepository {
 
     val channelsFlow: StateFlow<List<TVChannel>>
+
 }

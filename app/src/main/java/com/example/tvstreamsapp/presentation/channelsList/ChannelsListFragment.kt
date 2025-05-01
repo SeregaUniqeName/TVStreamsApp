@@ -15,13 +15,14 @@ import kotlinx.coroutines.launch
 class ChannelsListFragment : BaseFragment<ChannelsListFragmentBinding>() {
 
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[ChannelsListViewModel::class.java]
+        ViewModelProvider(this, viewModelsFactory)[ChannelsListViewModel::class.java]
     }
 
     private val itemClick by lazy {
         object : ChannelItemClickListener {
             override fun invoke(item: TVChannel) {
-                TODO("Not yet implemented")
+                viewModel.loadTVChannel(item)
+                navigate()
             }
         }
     }
@@ -67,7 +68,7 @@ class ChannelsListFragment : BaseFragment<ChannelsListFragmentBinding>() {
         }
     }
 
-    private fun navigate(item: TVChannel) {
+    private fun navigate() {
         //TODO
     }
 }

@@ -11,7 +11,7 @@ import com.example.tvstreamsapp.domain.models.TVChannel
 
 class ChannelListAdapter(
     private val itemClick: ChannelItemClickListener,
-) : ListAdapter<TVChannel, ChannelListViewHolder>(ChannelListDiffCallback()) {
+) : ListAdapter<TVChannel, ChannelListViewHolder>(ChannelsListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelListViewHolder {
         return ChannelListViewHolder.ChannelHolder(

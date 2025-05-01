@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.exoPlayer)
     implementation(libs.media3.dataSource.okHttp)
     implementation(libs.media3.hls)
+    implementation(libs.media3.ui)
 
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)

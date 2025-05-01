@@ -14,7 +14,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     protected val binding get() = _binding!!
 
     @Inject
-    protected lateinit var viewModelFactory: ViewModelFactory
+    protected lateinit var viewModelsFactory: ViewModelsFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = bind(inflater, container)

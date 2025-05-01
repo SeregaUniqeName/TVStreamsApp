@@ -9,5 +9,16 @@ fun TVChannelDb.mapToDomain(): TVChannel {
         channelName = this.channelName,
         iconUrl = this.iconUrl,
         streamUri = this.streamUri,
+        isActive = this.isActive
+    )
+}
+
+fun TVChannel.mapDomainToDb(): TVChannelDb {
+    return TVChannelDb(
+        id = this.id,
+        channelName = this.channelName,
+        iconUrl = this.iconUrl,
+        streamUri = this.streamUri,
+        isActive = this.isActive
     )
 }
