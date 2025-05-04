@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.tvstreamsapp.R
 import com.example.tvstreamsapp.databinding.ChannelsListFragmentBinding
 import com.example.tvstreamsapp.domain.models.TVChannel
 import com.example.tvstreamsapp.presentation.core.BaseFragment
@@ -69,6 +71,6 @@ class ChannelsListFragment : BaseFragment<ChannelsListFragmentBinding>() {
     }
 
     private fun navigate() {
-        //TODO
+        findNavController().navigate(R.id.action_channelsListFragment_to_playerFragment)
     }
 }

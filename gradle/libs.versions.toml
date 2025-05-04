@@ -18,6 +18,9 @@ retrofit = "2.11.0"
 loggingInterceptor = "4.12.0"
 androidLifecycle = "2.8.7"
 glide = "4.16.0"
+navigationFragmentKtx = "2.8.9"
+navigationUiKtx = "2.8.9"
+kotlinSerialization = "2.0.21"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,8 +54,12 @@ okHttp-loggin-interceptor = { group = "com.squareup.okhttp3", name = "logging-in
 
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
 
