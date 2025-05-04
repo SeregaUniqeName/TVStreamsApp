@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.tvstreamsapp.domain.PlayerInteractor
 import com.example.tvstreamsapp.domain.models.TVChannel
+import com.example.tvstreamsapp.domain.useCases.ChangeItemStatusUseCase
 import com.example.tvstreamsapp.domain.useCases.GetChannelsUseCase
 import com.example.tvstreamsapp.domain.useCases.LoadTVChannelUseCase
 import kotlinx.coroutines.launch
@@ -13,7 +14,8 @@ import javax.inject.Inject
 class PlayerViewModel @Inject constructor(
     getChannelsUseCase: GetChannelsUseCase,
     private val loadTVChannelUseCase: LoadTVChannelUseCase,
-    private val playerInteractor: PlayerInteractor
+    private val playerInteractor: PlayerInteractor,
+    private val changeItemStatusUseCase: ChangeItemStatusUseCase
 ) : ViewModel() {
 
     val channelsFlow = getChannelsUseCase()
@@ -24,8 +26,10 @@ class PlayerViewModel @Inject constructor(
         }
     }
 
-    fun changeItemActive(hewItem: TVChannel, oldItem: TVChannel) {
-
+    fun changeItemActive(newItem: TVChannel, oldItem: TVChannel) {
+        viewModelScope.launch {
+            changeItemStatusUseCase(newItem, oldItem)
+        }
     }
 
     fun releasePlayer() {

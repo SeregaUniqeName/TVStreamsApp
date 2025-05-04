@@ -18,6 +18,7 @@
             android:visibility="gone" />
 
         <ImageButton
+            android:src="@drawable/icon_fullscreen_exit"
             android:id="@+id/fullscreenButton"
             android:layout_width="48dp"
             android:layout_height="48dp"

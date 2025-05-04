@@ -4,7 +4,7 @@ import com.example.tvstreamsapp.domain.PlayerRepository
 import com.example.tvstreamsapp.domain.models.TVChannel
 import javax.inject.Inject
 
-class ChangeItemStatus @Inject constructor(
+class ChangeItemStatusUseCase @Inject constructor(
     private val repository: PlayerRepository
 ) {
 

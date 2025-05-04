@@ -3,6 +3,7 @@ package com.example.tvstreamsapp.data.repositories
 import android.content.Context
 import android.net.Uri
 import androidx.annotation.OptIn
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -24,6 +25,7 @@ class PlayerRepositoryImpl @OptIn(UnstableApi::class)
     private val player: ExoPlayer by lazy {
         ExoPlayer.Builder(context)
             .setMediaSourceFactory(connectionService.createMediaSourceFactory())
+            .setVideoScalingMode(C.VIDEO_SCALING_MODE_DEFAULT)
             .build()
     }
 
