@@ -9,6 +9,6 @@ class ChangeChannelUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(newItem: TVChannel) {
-        playerRepository.changeChannel(newItem)
+        playerRepository.openStream(newItem)
     }
 }

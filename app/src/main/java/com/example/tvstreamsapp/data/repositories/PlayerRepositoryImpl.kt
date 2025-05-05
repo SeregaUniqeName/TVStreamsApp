@@ -31,19 +31,6 @@ class PlayerRepositoryImpl @OptIn(UnstableApi::class)
         player.play()
     }
 
-    override suspend fun changeChannel(newItem: TVChannel) {
-        preparePlayer(newItem)
-        player.play()
-    }
-
-    override fun play() {
-        returnPlayer().play()
-    }
-
-    override fun pause() {
-        returnPlayer().pause()
-    }
-
     override fun release() {
         returnPlayer().release()
     }
