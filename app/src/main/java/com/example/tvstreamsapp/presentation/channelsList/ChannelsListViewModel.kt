@@ -18,7 +18,7 @@ class ChannelsListViewModel @Inject constructor(
 
     val screenState = getChannelsUseCase()
         .map { ChannelsState.Loaded(list = it) as ChannelsState }
-        .onStart { ChannelsState.Loading }
+        .onStart { emit(ChannelsState.Loading) }
         .catch { error ->
             emit(ChannelsState.Error(message = error.message.toString()))
         }

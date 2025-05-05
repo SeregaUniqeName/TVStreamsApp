@@ -10,5 +10,4 @@ data class TVChannelDb(
     @ColumnInfo val channelName: String,
     @ColumnInfo val iconUrl: String,
     @ColumnInfo val streamUri: String,
-    @ColumnInfo val isActive: Boolean = false
 )

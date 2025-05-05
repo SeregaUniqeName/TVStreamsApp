@@ -26,6 +26,7 @@ android {
         localProperties.load(FileInputStream(localPropertiesFile))
 
         buildConfigField("String", "API_KEY", localProperties["imageApiKey"].toString())
+        buildConfigField("String", "CX", localProperties["cx"].toString())
     }
 
     buildTypes {

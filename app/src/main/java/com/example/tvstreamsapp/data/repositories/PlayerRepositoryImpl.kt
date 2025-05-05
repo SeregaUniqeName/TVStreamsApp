@@ -7,9 +7,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import com.example.tvstreamsapp.data.local.database.ChannelsDao
-import com.example.tvstreamsapp.data.remote.HLSConnectionService
-import com.example.tvstreamsapp.data.utils.mapDomainToDb
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import com.example.tvstreamsapp.domain.PlayerRepository
 import com.example.tvstreamsapp.domain.models.TVChannel
 import javax.inject.Inject
@@ -18,47 +16,45 @@ import javax.inject.Inject
 class PlayerRepositoryImpl @OptIn(UnstableApi::class)
 @Inject constructor(
     private val context: Context,
-    private val connectionService: HLSConnectionService,
-    private val channelsDao: ChannelsDao,
+    private val connectionService: DefaultMediaSourceFactory,
 ) : PlayerRepository {
 
     private val player: ExoPlayer by lazy {
         ExoPlayer.Builder(context)
-            .setMediaSourceFactory(connectionService.createMediaSourceFactory())
+            .setMediaSourceFactory(connectionService)
             .setVideoScalingMode(C.VIDEO_SCALING_MODE_DEFAULT)
             .build()
     }
 
     override suspend fun openStream(item: TVChannel) {
-        changeActiveItem(item)
-        val mediaItem = MediaItem.fromUri(Uri.parse(item.streamUri))
-        player.setMediaItem(mediaItem)
-        player.prepare()
-    }
-
-    override suspend fun changeItemStatus(newItem: TVChannel, oldItem: TVChannel) {
-        channelsDao.changeActiveItem(newItem.mapDomainToDb())
-        channelsDao.changeActiveItem(oldItem.mapDomainToDb())
-        openStream(newItem)
-    }
-
-    override fun play() {
+        preparePlayer(item)
         player.play()
     }
 
+    override suspend fun changeChannel(newItem: TVChannel) {
+        preparePlayer(newItem)
+        player.play()
+    }
+
+    override fun play() {
+        returnPlayer().play()
+    }
+
     override fun pause() {
-        player.pause()
+        returnPlayer().pause()
     }
 
     override fun release() {
-        player.release()
+        returnPlayer().release()
     }
 
-    override fun getPlayer(): ExoPlayer {
+    override fun returnPlayer(): ExoPlayer {
         return player
     }
 
-    private fun changeActiveItem(item: TVChannel) {
-        channelsDao.changeActiveItem(item.mapDomainToDb())
+    private fun preparePlayer(item: TVChannel) {
+        val mediaItem = MediaItem.fromUri(Uri.parse(item.streamUri))
+        returnPlayer().setMediaItem(mediaItem)
+        returnPlayer().prepare()
     }
 }

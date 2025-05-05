@@ -1,5 +1,6 @@
 package com.example.tvstreamsapp.presentation.openedChannel
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -7,41 +8,25 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.example.tvstreamsapp.databinding.OpenedChannelListElementActiveBinding
-import com.example.tvstreamsapp.databinding.OpenedChannelListElementBinding
-import com.example.tvstreamsapp.presentation.openedChannel.uiModels.PlayerListItems
-import com.example.tvstreamsapp.presentation.openedChannel.utils.mapUiToDomain
+import com.bumptech.glide.Glide
+import com.example.tvstreamsapp.databinding.PlayerListElementBinding
+import com.example.tvstreamsapp.domain.models.TVChannel
 
 class PlayerListAdapter(
     private val playerItemClick: PlayerItemClick,
-    private val typeList: List<PlayerListViewHolderType> = listOf(
-        PlayerListViewHolderType.Active,
-        PlayerListViewHolderType.Inactive
-    )
-) : ListAdapter<PlayerListItems, PlayerItemViewHolder>(PlayerListDiffCallback()) {
-
-    private var activeItem = currentList.find { it is PlayerListItems.Active }
+) : ListAdapter<TVChannel, PlayerItemViewHolder>(PlayerListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerItemViewHolder {
-        return typeList[viewType].viewHolder(parent)
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        val item = currentList[position]
-        val type = item.type()
-        val index = typeList.indexOf(type)
-        if (index == -1)
-            throw IllegalArgumentException("Add type $type in $this constructor argument (typeList)!")
-        return index
+        return PlayerItemViewHolder.PlayerItem(
+            PlayerListElementBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: PlayerItemViewHolder, position: Int) {
         val item = currentList[position]
         holder.root.setOnClickListener {
-            activeItem = item
             playerItemClick(
-                item.mapUiToDomain().changeActiveStatus(),
-                activeItem!!.mapUiToDomain().changeActiveStatus()
+                item
             )
         }
         holder.bind(item)
@@ -54,20 +39,17 @@ abstract class PlayerItemViewHolder(binding: ViewBinding) : RecyclerView.ViewHol
     abstract val image: ImageView
     abstract val text: TextView
 
-    fun bind(item: PlayerListItems) {
-        item.show(image, text)
-    }
+    abstract fun bind(item: TVChannel)
 
-    class ActiveItemHolder(binding: OpenedChannelListElementActiveBinding) : PlayerItemViewHolder(binding) {
+    class PlayerItem(binding: PlayerListElementBinding) : PlayerItemViewHolder(binding) {
         override val root = binding.root
         override val image = binding.openedChannelImage
         override val text = binding.openedChannelText
-    }
 
-    class InactiveItemHolder(binding: OpenedChannelListElementBinding) : PlayerItemViewHolder(binding) {
-        override val root = binding.root
-        override val image = binding.openedChannelImage
-        override val text = binding.openedChannelText
+        override fun bind(item: TVChannel) {
+            Glide.with(image).load(item.iconUrl).into(image)
+            text.text = item.channelName
+        }
     }
 
 }

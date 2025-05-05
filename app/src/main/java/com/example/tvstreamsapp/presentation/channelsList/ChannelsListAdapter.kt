@@ -2,6 +2,9 @@ package com.example.tvstreamsapp.presentation.channelsList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -20,24 +23,30 @@ class ChannelListAdapter(
     }
 
     override fun onBindViewHolder(holder: ChannelListViewHolder, position: Int) {
-        val binding = holder.binding
         val item = currentList[position]
-        binding.root.setOnClickListener {
+        holder.root.setOnClickListener {
             itemClick(item)
         }
         holder.bind(item)
     }
 }
 
-abstract class ChannelListViewHolder(open val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+abstract class ChannelListViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    abstract val root: LinearLayout
+    abstract val image: ImageView
+    abstract val text: TextView
 
     abstract fun bind(item: TVChannel)
 
-    class ChannelHolder(override val binding: ChannelListElementBinding) : ChannelListViewHolder(binding) {
+    class ChannelHolder(binding: ChannelListElementBinding) : ChannelListViewHolder(binding) {
+        override val root = binding.root
+        override val image = binding.channelImage
+        override val text = binding.channelText
+
         override fun bind(item: TVChannel) {
-            val image = binding.channelImage
-            Glide.with(binding.root).load(item.iconUrl).into(image)
-            binding.channelText.text = item.channelName
+            Glide.with(image).load(item.iconUrl).into(image)
+            text.text = item.channelName
         }
 
     }

@@ -9,6 +9,6 @@ interface PlayerRepository {
     fun play()
     fun pause()
     fun release()
-    fun getPlayer(): ExoPlayer
-    suspend fun changeItemStatus(newItem: TVChannel, oldItem: TVChannel)
+    fun returnPlayer(): ExoPlayer
+    suspend fun changeChannel(newItem: TVChannel)
 }

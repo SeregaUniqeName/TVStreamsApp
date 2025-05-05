@@ -1,8 +1,9 @@
 package com.example.tvstreamsapp.di
 
-import android.app.Application
+import android.content.Context
 import com.example.tvstreamsapp.di.annotations.ApplicationScope
-import com.example.tvstreamsapp.presentation.core.BaseFragment
+import com.example.tvstreamsapp.presentation.channelsList.ChannelsListFragment
+import com.example.tvstreamsapp.presentation.openedChannel.PlayerFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -15,13 +16,14 @@ import dagger.Component
 @ApplicationScope
 interface ApplicationComponent {
 
-    fun inject(fragment: BaseFragment<*>)
+    fun inject(fragment: ChannelsListFragment)
+    fun inject(fragment: PlayerFragment)
 
     @Component.Factory
     interface Factory {
 
         fun create(
-            @BindsInstance application: Application
+            @BindsInstance context: Context
         ): ApplicationComponent
     }
 }

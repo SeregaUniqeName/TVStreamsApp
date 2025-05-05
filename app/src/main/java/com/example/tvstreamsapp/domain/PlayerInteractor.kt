@@ -12,6 +12,6 @@ class PlayerInteractor @Inject constructor(
     }
 
     fun getPlayer(): ExoPlayer {
-        return repository.getPlayer()
+        return repository.returnPlayer()
     }
 }

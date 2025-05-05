@@ -1,18 +1,20 @@
 package com.example.tvstreamsapp.presentation.openedChannel
 
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.tvstreamsapp.databinding.OpenedChannelFragmentBinding
 import com.example.tvstreamsapp.domain.models.TVChannel
 import com.example.tvstreamsapp.presentation.core.BaseFragment
-import com.example.tvstreamsapp.presentation.openedChannel.utils.mapDomainToUi
 import kotlinx.coroutines.launch
 
 class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
@@ -28,27 +30,36 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
         return OpenedChannelFragmentBinding.inflate(inflater, container, false)
     }
 
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = PlayerListAdapter(
-            object : PlayerItemClick {
-                override fun invoke(newItem: TVChannel, oldItem: TVChannel) {
-                    viewModel.changeItemActive(newItem, oldItem)
-                }
+        if (!isFullscreen) {
+            val adapter = PlayerListAdapter(
+                object : PlayerItemClick {
+                    override fun invoke(newItem: TVChannel) {
+                        viewModel.changeChannelActive(newItem)
+                    }
 
-            }
-        )
-        binding.playerRecyclerView?.adapter = adapter
-        observeList(adapter)
+                }
+            )
+            binding.playerRecyclerView?.adapter = adapter
+            observeList(adapter)
+        }
         setupPlayer()
         setupPlayerListeners()
     }
 
     private fun observeList(adapter: PlayerListAdapter) {
         lifecycleScope.launch {
-            viewModel.channelsFlow.collect { list ->
-                adapter.submitList(list.map { it.mapDomainToUi() })
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.channelsFlow.collect { list ->
+                    adapter.submitList(list)
+                }
             }
         }
     }
@@ -62,8 +73,10 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
         binding.fullscreenButton.setOnClickListener {
             if (isFullscreen) {
                 activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                isFullscreen = false
             } else {
                 activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                isFullscreen = true
             }
         }
         exoPlayer?.addListener(object : Player.Listener {

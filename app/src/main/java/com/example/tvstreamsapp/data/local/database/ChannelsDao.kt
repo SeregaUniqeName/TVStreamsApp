@@ -15,6 +15,4 @@ interface ChannelsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addChannels(channels: List<TVChannelDb>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun changeActiveItem(item: TVChannelDb)
 }
