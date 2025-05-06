@@ -15,7 +15,8 @@
         android:src="@drawable/ic_pause" />
 
     <ProgressBar
-        android:id="@+id/exo_buffering"
+        android:id="@+id/player_buffering"
+        android:visibility="gone"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_gravity="center" />
