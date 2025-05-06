@@ -8,10 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.OptIn
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +18,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.navigation.fragment.findNavController
 import com.example.tvstreamsapp.R
 import com.example.tvstreamsapp.databinding.OpenedChannelFragmentBinding
 import com.example.tvstreamsapp.domain.models.TVChannel
@@ -92,8 +91,6 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
             )
             binding.playerRecyclerView?.adapter = adapter
             observeList(adapter)
-
-
         }
     }
 
@@ -108,15 +105,9 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
         binding.player.hideController()
         exoPlayer?.playWhenReady = true
 
-        fullscreenButton.setOnClickListener {
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                fullscreenButton.setImageResource(R.drawable.icon_fullscreen_exit)
-                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            } else if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                fullscreenButton.setImageResource(R.drawable.icon_fullscreen)
-                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            }
-        }
+        setFullscreenClickListener()
+        setBackPressedClickListener()
+
     }
 
     override fun onPause() {
@@ -156,24 +147,6 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
             }
     }
 
-    private fun hideSystemUi() {
-        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, false)
-        WindowInsetsControllerCompat(requireActivity().window, binding.player).let { controller ->
-            controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
-    }
-
-    private fun showSystemUi() {
-        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, false)
-        WindowInsetsControllerCompat(requireActivity().window, binding.player).let { controller ->
-            controller.show(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
-    }
-
     private fun releasePlayer() {
         exoPlayer?.let { exoPlayer ->
             viewModel.recordState(
@@ -185,6 +158,32 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
             exoPlayer.release()
         }
         exoPlayer = null
+    }
+
+    private fun setFullscreenClickListener() {
+        fullscreenButton.setOnClickListener {
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                fullscreenButton.setImageResource(R.drawable.icon_fullscreen_exit)
+                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            } else if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                fullscreenButton.setImageResource(R.drawable.icon_fullscreen)
+                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
+        }
+    }
+
+    private fun setBackPressedClickListener() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    } else {
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        )
     }
 
 }
