@@ -1,6 +1,3 @@
-import java.io.FileInputStream
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -21,12 +18,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val localPropertiesFile: File = rootProject.file("local.properties")
-        val localProperties = Properties()
-        localProperties.load(FileInputStream(localPropertiesFile))
-
-        buildConfigField("String", "API_KEY", localProperties["imageApiKey"].toString())
-        buildConfigField("String", "CX", localProperties["cx"].toString())
     }
 
     buildTypes {
@@ -45,7 +36,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        buildConfig = true
     }
 }
 

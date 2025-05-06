@@ -4,11 +4,11 @@ import com.example.tvstreamsapp.domain.PlayerRepository
 import com.example.tvstreamsapp.domain.models.TVChannel
 import javax.inject.Inject
 
-class LoadTVChannelUseCase @Inject constructor(
-    private val playerRepository: PlayerRepository,
+class PrepareTVChannelUseCase @Inject constructor(
+    private val repository: PlayerRepository
 ) {
 
-    suspend operator fun invoke(item: TVChannel) {
-        playerRepository.openStream(item)
+    operator fun invoke(item: TVChannel) {
+        repository.setChannel(item)
     }
 }
