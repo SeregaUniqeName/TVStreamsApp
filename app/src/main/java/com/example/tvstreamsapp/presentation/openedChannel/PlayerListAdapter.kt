@@ -47,6 +47,7 @@ abstract class PlayerItemViewHolder(binding: ViewBinding) : RecyclerView.ViewHol
         override val text = binding.openedChannelText
 
         override fun bind(item: TVChannel) {
+
             Glide.with(image).load(item.iconUrl).into(image)
             text.text = item.channelName
         }

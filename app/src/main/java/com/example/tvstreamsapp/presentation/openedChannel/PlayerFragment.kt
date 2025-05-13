@@ -33,6 +33,7 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
 
     private var exoPlayer: ExoPlayer? = null
     private lateinit var fullscreenButton: ImageButton
+
     private val playbackStateListener: Player.Listener = object : Player.Listener {
         @OptIn(UnstableApi::class)
         override fun onPlaybackStateChanged(playbackState: Int) {
