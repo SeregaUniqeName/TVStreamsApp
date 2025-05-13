@@ -5,4 +5,10 @@ data class TVChannel(
     val channelName: String,
     val iconUrl: String,
     val streamUri: String,
-)
+    val isActive: Boolean,
+) {
+
+    fun changeActive(): TVChannel {
+        return this.copy(isActive = !isActive)
+    }
+}

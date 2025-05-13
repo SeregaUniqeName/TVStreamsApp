@@ -1,6 +1,6 @@
 package com.example.tvstreamsapp.data.utils
 
-import com.example.tvstreamsapp.data.local.model.TVChannelDb
+import com.example.tvstreamsapp.data.local.models.TVChannelDb
 import com.example.tvstreamsapp.domain.models.TVChannel
 
 fun TVChannelDb.mapToDomain(): TVChannel {
@@ -9,6 +9,7 @@ fun TVChannelDb.mapToDomain(): TVChannel {
         channelName = this.channelName,
         iconUrl = this.iconUrl,
         streamUri = this.streamUri,
+        isActive = this.isActive
     )
 }
 
@@ -18,5 +19,6 @@ fun TVChannel.mapDomainToDb(): TVChannelDb {
         channelName = this.channelName,
         iconUrl = this.iconUrl,
         streamUri = this.streamUri,
+        isActive = this.isActive
     )
 }

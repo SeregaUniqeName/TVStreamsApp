@@ -1,4 +1,4 @@
-package com.example.tvstreamsapp.data.local.model
+package com.example.tvstreamsapp.data.local.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -10,4 +10,10 @@ data class TVChannelDb(
     @ColumnInfo val channelName: String,
     @ColumnInfo val iconUrl: String,
     @ColumnInfo val streamUri: String,
-)
+    @ColumnInfo val isActive: Boolean = false
+) {
+
+    fun changeActive(): TVChannelDb {
+        return this.copy(isActive = !isActive)
+    }
+}

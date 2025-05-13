@@ -21,8 +21,9 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import com.example.tvstreamsapp.R
 import com.example.tvstreamsapp.databinding.OpenedChannelFragmentBinding
-import com.example.tvstreamsapp.domain.models.TVChannel
 import com.example.tvstreamsapp.presentation.core.BaseFragment
+import com.example.tvstreamsapp.presentation.models.TVChannelUiModel
+import com.example.tvstreamsapp.presentation.utils.mapUiToDomain
 import kotlinx.coroutines.launch
 
 class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
@@ -79,9 +80,9 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             val adapter = PlayerListAdapter(
-                object : PlayerItemClick {
-                    override fun invoke(newItem: TVChannel) {
-                        viewModel.changeChannelActive(newItem)
+                playerItemClick = object : PlayerItemClick {
+                    override fun invoke(newItem: TVChannelUiModel) {
+                        viewModel.changeChannelActive(newItem.mapUiToDomain())
 
                         val mediaItem = MediaItem.fromUri(viewModel.getActiveChannel().streamUri)
                         exoPlayer?.setMediaItem(mediaItem)

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.tvstreamsapp.data.local.model.TVChannelDb
+import com.example.tvstreamsapp.data.local.models.TVChannelDb
 
 @Database(entities = [TVChannelDb::class], version = 1, exportSchema = false)
 abstract class ChannelsDatabase : RoomDatabase() {

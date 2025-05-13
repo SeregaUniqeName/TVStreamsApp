@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface ChannelsRepository {
 
     fun getChannels(): Flow<List<TVChannel>>
+
+    fun refreshList(item: TVChannel)
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.tvstreamsapp.domain.models.TVChannel
 import com.example.tvstreamsapp.domain.useCases.GetChannelsUseCase
 import com.example.tvstreamsapp.domain.useCases.PrepareTVChannelUseCase
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -19,6 +20,7 @@ class ChannelsListViewModel @Inject constructor(
     val screenState = getChannelsUseCase()
         .filter { it.isNotEmpty() }
         .map { ChannelsState.Loaded(list = it) as ChannelsState }
+        .catch { emit(ChannelsState.Error(message = it.message!!)) }
         .onStart { ChannelsState.Loading }
 
     fun loadTVChannel(item: TVChannel) {
