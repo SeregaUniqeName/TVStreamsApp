@@ -8,6 +8,7 @@ import com.example.tvstreamsapp.domain.ChannelsRepository
 import com.example.tvstreamsapp.domain.models.TVChannel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
@@ -23,15 +24,16 @@ class ChannelsRepositoryImpl @Inject constructor(
     private var id = 0
 
     private val dataFlow: Flow<List<TVChannel>> = flow {
+        delay(3000)
         val channels = channelsDao.getChannels()
         if (channels.isEmpty()) {
             fillDatabase()
         }
-        emit(channelsDao.getChannels().map { it.mapToDomain() })
+        emit(channelsDao.getChannels().map { it.mapToDomain() }.toList())
     }.stateIn(
         scope = coroutineScope,
         started = SharingStarted.Lazily,
-        initialValue = emptyList()
+        initialValue = emptyList<TVChannel>().toList()
     )
 
 

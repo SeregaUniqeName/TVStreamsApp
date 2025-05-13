@@ -5,10 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.tvstreamsapp.domain.models.TVChannel
 import com.example.tvstreamsapp.domain.useCases.GetChannelsUseCase
 import com.example.tvstreamsapp.domain.useCases.PrepareTVChannelUseCase
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,14 +17,9 @@ class ChannelsListViewModel @Inject constructor(
 ) : ViewModel() {
 
     val screenState = getChannelsUseCase()
+        .filter { it.isNotEmpty() }
         .map { ChannelsState.Loaded(list = it) as ChannelsState }
-        .catch { error ->
-            emit(ChannelsState.Error(message = error.message.toString()))
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = ChannelsState.Loading
-        )
+        .onStart { ChannelsState.Loading }
 
     fun loadTVChannel(item: TVChannel) {
         viewModelScope.launch {

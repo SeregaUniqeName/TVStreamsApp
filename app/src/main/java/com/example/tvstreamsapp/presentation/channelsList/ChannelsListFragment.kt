@@ -54,7 +54,7 @@ class ChannelsListFragment : BaseFragment<ChannelsListFragmentBinding>() {
 
     private fun observeViews() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.screenState
                     .collect {
                         drawState(it)
@@ -72,11 +72,10 @@ class ChannelsListFragment : BaseFragment<ChannelsListFragmentBinding>() {
 
             is ChannelsState.Loaded -> {
                 binding.progressBar.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
                 recyclerAdapter.submitList(state.list)
             }
 
-            ChannelsState.Loading -> {
+            is ChannelsState.Loading -> {
                 binding.progressBar.visibility = View.VISIBLE
             }
         }

@@ -65,7 +65,6 @@ abstract class ChannelListViewHolder(binding: ViewBinding) : RecyclerView.ViewHo
                         isFirstResource: Boolean
                     ): Boolean {
                         progress.visibility = View.GONE
-                        image.setImageResource(R.drawable.ic_icon_failed)
                         return false
                     }
 
@@ -81,6 +80,7 @@ abstract class ChannelListViewHolder(binding: ViewBinding) : RecyclerView.ViewHo
                     }
 
                 })
+                .error(R.drawable.ic_icon_failed)
                 .into(image)
             text.text = item.channelName
         }
