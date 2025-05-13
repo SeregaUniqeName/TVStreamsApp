@@ -39,15 +39,21 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
         @OptIn(UnstableApi::class)
         override fun onPlaybackStateChanged(playbackState: Int) {
             when (playbackState) {
-                ExoPlayer.STATE_IDLE -> binding.player.findViewById<View?>(R.id.player_buffering).visibility =
-                    View.VISIBLE
+                ExoPlayer.STATE_IDLE -> {
+                    binding.playerProgress.visibility =
+                        View.VISIBLE
+                    binding.player.hideController()
+                }
 
-                ExoPlayer.STATE_BUFFERING -> binding.player.findViewById<View?>(R.id.player_buffering).visibility =
-                    View.VISIBLE
+                ExoPlayer.STATE_BUFFERING -> {
+                    binding.playerProgress.visibility =
+                        View.VISIBLE
+                    binding.player.hideController()
+                }
 
                 ExoPlayer.STATE_READY -> {
                     binding.player.hideController()
-                    binding.player.findViewById<View?>(R.id.player_buffering).visibility = View.GONE
+                    binding.playerProgress.visibility = View.GONE
                 }
 
                 ExoPlayer.STATE_ENDED -> binding.player.showController()

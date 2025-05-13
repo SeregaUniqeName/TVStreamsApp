@@ -14,13 +14,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_pause" />
 
-    <ProgressBar
-        android:id="@+id/player_buffering"
-        android:visibility="gone"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_gravity="center" />
-
     <androidx.media3.ui.DefaultTimeBar
         android:id="@+id/exo_progress"
         android:layout_width="match_parent"
