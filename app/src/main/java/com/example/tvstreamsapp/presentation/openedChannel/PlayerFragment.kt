@@ -98,7 +98,9 @@ class PlayerFragment : BaseFragment<OpenedChannelFragmentBinding>() {
                 }
             )
             binding.playerRecyclerView?.adapter = adapter
+            binding.playerRecyclerView?.itemAnimator = null
             observeList(adapter)
+
         }
     }
 
